@@ -135,10 +135,5 @@
     (sb-ext::run-program program args :output shell-output :search t :wait t)
     (get-output-stream-string shell-output)))
 
-(defun shuffle (list)
-  (sort list #'< :key (lambda (x)
-                        (declare (ignore x))
-                        (random 1.0))))
-
 (defun symbol-keyword (symbol)
   (intern (symbol-name symbol) :keyword))
