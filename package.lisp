@@ -6,7 +6,7 @@
                                         ; sugar
    #:true? #:alter #:altered #:mutate #:prognil #:pipemap #:hamster #:pick-up #:append-case ; patterns
    #:mkstr #:symb #:with-gensyms #:pizdec #:symbol-keyword #:compare ; symbol
-   #:it #:awhen #:aif ; anaphoric
+   #:it #:awhen #:aunless #:aif ; anaphoric
    #:group #:find-assoc #:make-revolver-magazine ; list
    #:maphash-collect ; hash-table
    #:careful-apply #:compost ; function

@@ -8,6 +8,10 @@
   `(let ((it ,test))
      (when it ,@forms)))
 
+(defmacro aunless (test &body forms)
+  `(let ((it ,test))
+     (unless it ,@forms)))
+
 (defmacro alter (source &rest side-effects)
   "Evaluate SIDE-EFFECTS on SOURCE (evaluated and dynamically rebound to ALTERED) and return it's final value."
   `(let ((altered ,source))
