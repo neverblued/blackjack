@@ -34,6 +34,14 @@
                                    ))
                  source "\\1"))
 
+(defun trim-right (cut source)
+  (regex-replace (create-scanner `(:sequence
+                                   (:sequence (:register (:greedy-repetition 0 nil :everything)) :end-anchor)
+                                   ,cut
+                                   :end-anchor
+                                   ))
+                 source "\\1"))
+
 (defun regex-cut (regex source)
   (regex-replace-all regex source ""))
 

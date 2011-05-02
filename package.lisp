@@ -15,7 +15,7 @@
                                         ; string
    #:join #:join-by #:join-rec #:split-once
    #:name-keyword #:checksum
-   #:trim-left #:regex-cut
+   #:trim-left #:trim-right #:regex-cut
    #:begins-with?
                                         ; filesystem
    #:pathname-content #:save-into-file #:load-from-file
