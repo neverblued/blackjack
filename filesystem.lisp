@@ -37,11 +37,13 @@
                  (list date content))
            content))
     (if cache
-        (let ((write-date (file-write-date pathname)))
-          (aif (get-cache-cell)
-               (destructuring-bind (cache-date cache-content) it
-                 (if (and cache-date (>= cache-date write-date))
-                     (values cache-content t)
-                     (cached write-date (file-content))))
-               (cached write-date (file-content))))
+        (if (probe-file pathname)
+            (let ((write-date (file-write-date pathname)))
+              (aif (get-cache-cell)
+                   (destructuring-bind (cache-date cache-content) it
+                     (if (and cache-date (>= cache-date write-date))
+                         (values cache-content t)
+                         (cached write-date (file-content))))
+                   (cached write-date (file-content))))
+            (error "File not found: ~a" pathname))
         (file-content))))
