@@ -7,7 +7,7 @@
   :description "Common Lisp Blackjack"
   :version "0.2"
   :author "Demetrius Conde <condemetrius@gmail.com>"
-  :depends-on (#:cl-ppcre #:alexandria #:ironclad)
+  :depends-on (#:cl-ppcre #:alexandria #:ironclad #:babel)
   :serial t
   :components ((:file "package")
                (:file "sugar")

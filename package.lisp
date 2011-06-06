@@ -1,11 +1,11 @@
 (defpackage #:cl-blackjack
   (:nicknames #:blackjack #:bj)
-  (:use #:common-lisp #:cl-ppcre #:alexandria #:ironclad)
+  (:use #:common-lisp #:cl-ppcre #:alexandria #:ironclad #:babel)
   (:shadowing-import-from #:ironclad #:null)
   (:export
                                         ; sugar
    #:true? #:alter #:altered #:mutate #:prognil #:pipemap #:hamster #:pick-up #:append-case ; patterns
-   #:mkstr #:symb #:with-gensyms #:pizdec #:symbol-keyword #:compare ; symbol
+   #:mkstr #:symb #:with-gensyms #:pizdec #:symbol-keyword #:keyword-name #:compare ; symbol
    #:it #:awhen #:aunless #:aif ; anaphoric
    #:group #:find-assoc #:make-revolver-magazine ; list
    #:maphash-collect ; hash-table

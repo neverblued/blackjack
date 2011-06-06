@@ -141,3 +141,8 @@
 
 (defun symbol-keyword (symbol)
   (intern (symbol-name symbol) :keyword))
+
+(defun keyword-name (keyword)
+  (unless (keywordp keyword)
+    (error 'type-error :datum keyword :expected-type 'keyword))
+  (string-downcase (symbol-name keyword)))

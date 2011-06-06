@@ -46,4 +46,4 @@
   (regex-replace-all regex source ""))
 
 (defun checksum (secret)
-  (ironclad:byte-array-to-hex-string (ironclad:digest-sequence :sha256 (ironclad:ascii-string-to-byte-array secret))))
+  (byte-array-to-hex-string (digest-sequence :sha256 (string-to-octets secret))))
