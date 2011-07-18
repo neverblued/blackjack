@@ -1,5 +1,9 @@
 (in-package #:cl-blackjack)
 
+(defmacro awith (it &body body)
+  `(let ((it ,it))
+     ,@body))
+
 (defmacro aif (test then &optional else)
   `(let ((it ,test))
      (if it ,then ,else)))
