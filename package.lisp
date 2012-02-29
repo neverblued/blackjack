@@ -17,6 +17,8 @@
    #:name-keyword #:checksum
    #:trim-left #:trim-right #:regex-cut
    #:begins-with?
+   #:clean-unicode
+   #:safely-read-from-string
                                         ; filesystem
    #:pathname-content #:save-into-file #:load-from-file
    ))

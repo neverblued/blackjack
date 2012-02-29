@@ -21,7 +21,8 @@
                         strings-or-lists)))
 
 (defun name-keyword (string)
-  (intern (string-upcase string) (find-package :keyword)))
+  (unless (string= (string-downcase string) "nil")
+    (intern (string-upcase string) (find-package :keyword))))
 
 (defun split-once (regex source)
   (split regex source :limit 2))
@@ -47,3 +48,14 @@
 
 (defun checksum (secret)
   (byte-array-to-hex-string (digest-sequence :sha256 (string-to-octets secret))))
+
+(defun clean-unicode (source)
+  (remove #\Nul source))
+
+(defun safely-read-from-string (str &rest read-from-string-args)
+  "Read an expression from the string STR, with *READ-EVAL* set
+to NIL. Any unsafe expressions will be replaced by NIL in the
+resulting S-Expression."
+  (let ((*read-eval* nil))
+    (ignore-errors
+      (apply #'read-from-string str read-from-string-args))))

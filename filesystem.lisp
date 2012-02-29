@@ -2,28 +2,33 @@
 
 ;; cache
 
-(defparameter *pathname-content-cache* (make-hash-table :test #'equal))
+(defparameter *cache* (make-hash-table :test #'equal))
+
+(defun cache-cell (id)
+  (values (gethash id *cache* nil)))
+
+(defun cached-content (id content date)
+  (setf (gethash id *cache*)
+        (list date content))
+  content)
 
 (defmacro with-pathname-cache (pathname &body body)
-  (with-gensyms (cache-cell cached origin)
+  (with-gensyms (cached-origin)
     (once-only (pathname)
-      `(flet ((,cache-cell ()
-                (values (gethash ,pathname *pathname-content-cache* nil)))
-              (,cached (date content)
-                (setf (gethash ,pathname *pathname-content-cache*)
-                      (list date content))
-                content)
-              (,origin ()
-                (progn ,@body)))
-         (if (probe-file ,pathname)
-             (let ((write-date (file-write-date ,pathname)))
-               (aif (,cache-cell)
+      `(if (probe-file ,pathname)
+           (let ((write-date (file-write-date ,pathname)))
+             (flet ((,cached-origin ()
+                      (cached-content ,pathname (progn ,@body) write-date)))
+               (aif (cache-cell pathname)
                     (destructuring-bind (cache-date cache-content) it
                       (if (and cache-date (>= cache-date write-date))
                           (values cache-content t)
-                          (,cached write-date (,origin))))
-                    (,cached write-date (,origin))))
-             (error "File not found: ~a" ,pathname))))))
+                          (,cached-origin)))
+                    (,cached-origin))))
+           (error "File not found: ~a" ,pathname)))))
+
+(defun kill-pathname-cache (pathname)
+  (remhash pathname *cache*))
 
 ;; I/O
 
@@ -33,14 +38,30 @@
     (format file "~s" value))
   nil)
 
-(defun load-from-file (pathname &key (cache t))
+(defmacro define-cached-pathname (name (&rest args) &rest content)
+  (with-gensyms (file-content)
+    `(defun ,name (pathname &key (cache t) ,@args)
+       (flet ((,file-content ()
+                ,@content))
+         (if cache
+             (with-pathname-cache pathname (,file-content))
+             (progn (kill-pathname-cache pathname)
+                    (,file-content)))))))
+
+;(defun load-from-file (pathname &key (cache t))
+;  (when (probe-file pathname)
+;    (flet ((file-content ()
+;             (with-open-file (file pathname)
+;               (read file nil))))
+;      (if cache
+;          (with-pathname-cache pathname (file-content))
+;          (progn (kill-pathname-cache pathname)
+;                 (file-content))))))
+
+(define-cached-pathname load-from-file ()
   (when (probe-file pathname)
-    (flet ((file-content ()
-             (with-open-file (file pathname)
-               (read file nil))))
-      (if cache
-          (with-pathname-cache pathname (file-content))
-          (file-content)))))
+    (with-open-file (file pathname)
+      (read file nil))))
 
 (defun pathname-string+bytes (pathname)
   "Suck up an entire file from PATH into a freshly-allocated string, returning two values: the string and the number of bytes read."
@@ -49,16 +70,26 @@
            (data (make-string len)))
       (values data (read-sequence data s)))))
 
-(defun pathname-content (pathname &key (binary nil) (cache t))
-  "Suck up an entire file from PATH into a freshly-allocated string."
-  (flet ((file-content ()
-           (if binary
-               (let (result)
-                 (with-open-file (file pathname :element-type '(unsigned-byte 8))
-                   (loop for byte = (read-byte file nil)
-                      while byte do (push byte result)))
-                 (reverse result))
-               (values (pathname-string+bytes pathname)))))
-    (if cache
-        (with-pathname-cache pathname (file-content))
-        (file-content))))
+;(defun pathname-content (pathname &key binary (cache t))
+;  "Suck up an entire file from PATH into a freshly-allocated string."
+;  (flet ((file-content ()
+;           (if binary
+;               (let (result)
+;                 (with-open-file (file pathname :element-type '(unsigned-byte 8))
+;                   (loop for byte = (read-byte file nil)
+;                      while byte do (push byte result)))
+;                 (reverse result))
+;               (clean-unicode (pathname-string+bytes pathname)))))
+;    (if cache
+;        (with-pathname-cache pathname (file-content))
+;        (progn (kill-pathname-cache pathname)
+;               (file-content)))))
+
+(define-cached-pathname pathname-content (binary)
+  (if binary
+      (let (result)
+        (with-open-file (file pathname :element-type '(unsigned-byte 8))
+          (loop for byte = (read-byte file nil)
+             while byte do (push byte result)))
+        (reverse result))
+      (clean-unicode (pathname-string+bytes pathname))))
