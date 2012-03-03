@@ -48,16 +48,6 @@
              (progn (kill-pathname-cache pathname)
                     (,file-content)))))))
 
-;(defun load-from-file (pathname &key (cache t))
-;  (when (probe-file pathname)
-;    (flet ((file-content ()
-;             (with-open-file (file pathname)
-;               (read file nil))))
-;      (if cache
-;          (with-pathname-cache pathname (file-content))
-;          (progn (kill-pathname-cache pathname)
-;                 (file-content))))))
-
 (define-cached-pathname load-from-file ()
   (when (probe-file pathname)
     (with-open-file (file pathname)
@@ -69,21 +59,6 @@
     (let* ((len (file-length s))
            (data (make-string len)))
       (values data (read-sequence data s)))))
-
-;(defun pathname-content (pathname &key binary (cache t))
-;  "Suck up an entire file from PATH into a freshly-allocated string."
-;  (flet ((file-content ()
-;           (if binary
-;               (let (result)
-;                 (with-open-file (file pathname :element-type '(unsigned-byte 8))
-;                   (loop for byte = (read-byte file nil)
-;                      while byte do (push byte result)))
-;                 (reverse result))
-;               (clean-unicode (pathname-string+bytes pathname)))))
-;    (if cache
-;        (with-pathname-cache pathname (file-content))
-;        (progn (kill-pathname-cache pathname)
-;               (file-content)))))
 
 (define-cached-pathname pathname-content (binary)
   (if binary
