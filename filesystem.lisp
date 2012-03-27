@@ -34,6 +34,7 @@
 
 (defun save-into-file (value pathname)
   (ensure-directories-exist pathname)
+  (kill-pathname-cache pathname)
   (with-open-file (file pathname :direction :output :if-exists :supersede)
     (format file "~s" value))
   nil)

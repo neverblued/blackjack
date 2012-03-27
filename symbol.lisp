@@ -14,16 +14,13 @@
   (string-downcase (symbol-name keyword)))
 
 (defmacro pizdec (&rest huynya)
-  `(progn ,@(apply #'append
-;  (adjoin 'progn
-;          (apply #'append
-                   (loop for foo in huynya
-                      collect `(awith ',foo
-                                 (when (boundp it)
-                                   (makunbound it))
-                                 (when (fboundp it)
-                                   (fmakunbound it))
-                                 (unintern it))))))
+  `(progn ,@(loop for foo in huynya
+               collect `(awith ',foo
+                          (when (boundp it)
+                            (makunbound it))
+                          (when (fboundp it)
+                            (fmakunbound it))
+                          (unintern it)))))
 
 (defun symb (&rest args)
   (values (intern (apply #'mkstr args))))

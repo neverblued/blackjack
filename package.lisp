@@ -41,5 +41,7 @@
    #:system-directory
                                         ; shell
    #:shell-run-output
-
+                                        ; data
+   #:define-data-factory #:define-fetch-list #:define-fetch-item
+                                        ; .
    ))
