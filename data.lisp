@@ -26,27 +26,34 @@
                (symb key "?"))
              (fetcher-signature ()
                (map-signature key `(,key nil ,(? key)))))
-      `(progn
+      (with-gensyms (source)
+        `(progn
+           (let ((,source #',name))
 
-         (defgeneric ,name (&key))
+             (defgeneric ,name (&key))
 
-         (defmethod ,name (&key ,@(fetcher-signature) &allow-other-keys)
-           (declare (ignorable ,@(mapcar #'? signature)))
-           (let ((list ,name))
-             (iter (for item in list)
-                   (when (and ,@(map-signature key
-                                  `(if ,(? key)
-                                       (equal ,key (,key item))
-                                       t)))
-                     (collect item)))))))))
+             (defmethod ,name (&key ,@(fetcher-signature) &allow-other-keys)
+               (declare (ignorable ,@(mapcar #'? signature)))
+               (let ((list (funcall ,source)))
+                 (iter (for item in list)
+                       (when (and ,@(map-signature key
+                                      `(if ,(? key)
+                                           (equal ,key (,key item))
+                                           t)))
+                         (collect item)))))))))))
 
-(defmacro define-fetch-item (item list &key
-                           sort-predicate sort-key (grab #'first))
+(defmacro define-fetch-item (item list &key sort-predicate sort-key grab)
+  (declare (type symbol item list))
   `(progn
 
      (defgeneric ,item (&rest filter))
 
      (defmethod ,item (&rest filter)
-       (awith (apply #',list filter)
-         (awith (sort it sort-predicate :key sort-key)
-           (values (funcall grab it) (length it)))))))
+       (macrolet ((result ()
+                    `(values (,',(or grab 'first) it)
+                             (length it))))
+         (awith (apply #',list filter)
+           ,(aif sort-predicate
+                 `(awith (sort it ,it :key ,sort-key)
+                    (result))
+                 '(result)))))))

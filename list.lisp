@@ -10,11 +10,12 @@
           (length it))
        0))
 
-(defun find-assoc (needle assoc-pairs &key (test #'eql))
-  (second (find needle
-                assoc-pairs
-                :test test
-                :key #'first)))
+(defun find-assoc (needle assoc-pairs &key (test #'eql) (fetch #'second))
+  (funcall fetch
+           (find needle
+                 assoc-pairs
+                 :test test
+                 :key #'first)))
 
 (defun group (source n)
   (if (zerop n) (error "Zero length."))
