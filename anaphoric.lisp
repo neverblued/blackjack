@@ -17,7 +17,7 @@
   `(awith ,test
      (unless it ,@forms)))
 
-(defmacro aprogn (it &rest side-effects)
+(defmacro aprogn (it &body side-effects)
   `(awith ,it
      ,@side-effects
      it))
@@ -25,3 +25,10 @@
 (defmacro awhen (test &body forms)
   `(awith ,test
      (when it ,@forms)))
+
+(defmacro asetf (origin setfable value)
+  `(awith ,origin
+     (when it
+       (setf ,setfable
+             (awith ,setfable ,value)))
+     it))

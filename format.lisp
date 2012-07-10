@@ -5,7 +5,7 @@
 (in-package #:cl-blackjack)
 
 (defmacro echo (stream form &key label)
-  "Pretty print FORM => <EVALUATED-FORM> and return the value. LABEL is just for overweight source forms."
+  "Pretty print (LABEL || FORM) => <EVALUATED-FORM> and return the value."
   (with-gensyms (form* label*)
     `(let* ((,form* ,form)
             (,label* (or ,label ',form)))

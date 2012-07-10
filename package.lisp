@@ -13,9 +13,9 @@
   (:shadowing-import-from #:ironclad #:null)
   (:export
                                         ; anaphoric
-   #:it #:aif #:awhen #:awith #:aprogn #:aunless
+   #:it #:aif #:aprogn #:asetf #:aunless #:awhen #:awith
                                         ; symbol
-   #:keyword-name #:mkstr #:pizdec #:symb #:symbol-keyword #:with-gensyms
+   #:instance-class-name #:keyword-name #:mkstr #:pizdec #:symb #:symbol-keyword #:with-gensyms
                                         ; function
    #:compost #:mutate #:pipemap
                                         ; pattern

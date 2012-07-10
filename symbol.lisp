@@ -4,14 +4,17 @@
 
 (in-package #:cl-blackjack)
 
-(defun mkstr (&rest args)
-  (with-output-to-string (s)
-    (dolist (a args) (princ a s))))
+(defun instance-class-name (instance)
+  (class-name (class-of instance)))
 
 (defun keyword-name (keyword)
   (unless (keywordp keyword)
     (error 'type-error :datum keyword :expected-type 'keyword))
   (string-downcase (symbol-name keyword)))
+
+(defun mkstr (&rest args)
+  (with-output-to-string (s)
+    (dolist (a args) (princ a s))))
 
 (defmacro pizdec (&rest huynya)
   `(progn ,@(loop for foo in huynya
