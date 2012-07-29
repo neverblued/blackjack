@@ -30,8 +30,8 @@
    #:join #:join-by #:join-rec #:split-once
    #:name-keyword #:checksum
    #:trim-left #:trim-right #:regex-cut
-   #:begins-with?
-   #:clean-unicode
+   #:begins-with? #:string-null
+   #:clean-unicode #:capitalize-1st
    #:safely-read-from-string
                                         ; format
    #:echo

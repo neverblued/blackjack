@@ -11,6 +11,17 @@
         nil
         (equal beginning (subseq whole 0 beginning-length)))))
 
+(defun capitalize-1st (string)
+  (if (< 0 (length string))
+      (string-capitalize string :start 0 :end 1)
+      string))
+
+(defun checksum (secret)
+  (byte-array-to-hex-string (digest-sequence :sha256 (string-to-octets secret))))
+
+(defun clean-unicode (source)
+  (remove #\Nul source))
+
 (defun join (&rest strings)
   (format nil "~{~a~}" strings))
 
@@ -50,12 +61,6 @@
 (defun regex-cut (regex source)
   (regex-replace-all regex source ""))
 
-(defun checksum (secret)
-  (byte-array-to-hex-string (digest-sequence :sha256 (string-to-octets secret))))
-
-(defun clean-unicode (source)
-  (remove #\Nul source))
-
 (defun safely-read-from-string (str &rest read-from-string-args)
   "Read an expression from the string STR, with *READ-EVAL* set
 to NIL. Any unsafe expressions will be replaced by NIL in the
@@ -63,3 +68,8 @@ resulting S-Expression."
   (let ((*read-eval* nil))
     (ignore-errors
       (apply #'read-from-string str read-from-string-args))))
+
+(defun string-null
+    (this)
+  (or (cl:null this)
+      (string= "" this)))
