@@ -15,7 +15,7 @@
                                         ; anaphoric
    #:it #:aif #:aprogn #:asetf #:aunless #:awhen #:awith
                                         ; symbol
-   #:instance-class-name #:keyword-name #:mkstr #:pizdec #:symb #:symbol-keyword #:with-gensyms
+   #:instance-class-name #:keyword-name #:mkstr #:name-value #:pizdec #:symb #:symbol-keyword #:with-gensyms
                                         ; function
    #:compost #:mutate #:pipemap
                                         ; pattern

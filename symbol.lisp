@@ -16,6 +16,12 @@
   (with-output-to-string (s)
     (dolist (a args) (princ a s))))
 
+(defun name-value (symbol-name)
+  (awith (intern (string-upcase symbol-name) *package*)
+    (if (boundp it)
+        (symbol-value it)
+        (error "Symbol ~s is not bound." it))))
+
 (defmacro pizdec (&rest huynya)
   `(progn ,@(loop for foo in huynya
                collect `(awith ',foo
