@@ -14,3 +14,8 @@
 (defun true? (thing)
   "Evaluate the THING to T or NIL."
   (when thing t))
+
+(defun round-time-to-minute (time &optional up?)
+  (date-formatter (time)
+    (awith (encode-universal-time 0 minute hour date month year)
+      (if up? (+ it 60) it))))

@@ -9,24 +9,25 @@
 
 (defsystem "blackjack"
   :description "Common Lisp Blackjack"
-  :version "0.3"
+  :version "0.4"
   :author "Дмитрий Пинский <demetrius@neverblued.info>"
   :depends-on (#:alexandria
                #:babel
                #:cl-ppcre
                #:ironclad
-               #:iterate)
+               #:iterate
+               #:simple-date)
   :serial t
   :components ((:file "package")
                (:file "anaphoric")
                (:file "symbol")
                (:file "function")
                (:file "pattern")
+               (:file "format")
                (:file "count")
                (:file "list")
                (:file "plist")
                (:file "string")
-               (:file "format")
                (:file "filesystem")
                (:file "asdf")
                (:file "data")

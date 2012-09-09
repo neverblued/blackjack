@@ -9,23 +9,32 @@
         #:babel
         #:cl-ppcre
         #:ironclad
-        #:iterate)
+        #:iterate
+        #:simple-date)
   (:shadowing-import-from #:ironclad #:null)
   (:export
                                         ; anaphoric
    #:it #:aif #:aprogn #:asetf #:aunless #:awhen #:awith
-                                        ; symbol
-   #:instance-class-name #:keyword-name #:mkstr #:pizdec #:symb #:symbol-keyword #:with-gensyms
+                                        ; asdf
+   #:system-directory
+                                        ; data
+   #:define-data-factory #:define-fetch-list #:define-fetch-item
                                         ; function
    #:compost #:mutate #:pipemap
                                         ; pattern
    #:append-case #:careful-apply #:hamster #:maphash-collect #:pick-up #:prognil
                                         ; count
-   #:compare #:true?
+   #:compare #:true? #:round-time-to-minute
+                                        ; filesystem
+   #:pathname-content #:save-into-file #:load-from-file
+                                        ; format
+   #:echo #:date-formatter #:timestamp-js-to-universal
                                         ; list
    #:average-length #:find-assoc #:group #:make-revolver-magazine
                                         ; plist
    #:plist-unique #:plist-extend
+                                        ; shell
+   #:shell-run-output
                                         ; string
    #:join #:join-by #:join-rec #:split-once
    #:name-keyword #:checksum
@@ -33,15 +42,7 @@
    #:begins-with? #:string-null
    #:clean-unicode #:capitalize-1st
    #:safely-read-from-string
-                                        ; format
-   #:echo
-                                        ; filesystem
-   #:pathname-content #:save-into-file #:load-from-file
-                                        ; asdf
-   #:system-directory
-                                        ; shell
-   #:shell-run-output
-                                        ; data
-   #:define-data-factory #:define-fetch-list #:define-fetch-item
+                                        ; symbol
+   #:instance-class-name #:keyword-name #:mkstr #:pizdec #:symb #:symbol-keyword #:with-gensyms
                                         ; .
    ))
