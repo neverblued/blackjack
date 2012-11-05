@@ -72,4 +72,4 @@ resulting S-Expression."
 (defun string-null
     (this)
   (or (cl:null this)
-      (string= "" this)))
+      (string= "" (join this))))
