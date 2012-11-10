@@ -10,6 +10,9 @@
           (length it))
        0))
 
+(defun badjoin (item list &key key (test #'eql))
+  (reverse (adjoin item (reverse list) :key key :test test)))
+
 (defun find-assoc (needle assoc-pairs &key (test #'eql) (fetch #'second))
   (funcall fetch
            (find needle

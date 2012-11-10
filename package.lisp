@@ -30,7 +30,7 @@
                                         ; format
    #:echo #:date-formatter #:timestamp-js-to-universal
                                         ; list
-   #:average-length #:find-assoc #:group #:make-revolver-magazine
+   #:average-length #:badjoin #:find-assoc #:group #:make-revolver-magazine
                                         ; plist
    #:plist-unique #:plist-extend
                                         ; shell
