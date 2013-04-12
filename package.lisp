@@ -31,6 +31,7 @@
    #:echo #:date-formatter #:timestamp-js-to-universal
                                         ; list
    #:average-length #:badjoin #:find-assoc #:group #:make-revolver-magazine
+   #:any
                                         ; plist
    #:plist-unique #:plist-extend
                                         ; shell

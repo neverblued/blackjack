@@ -10,6 +10,9 @@
           (length it))
        0))
 
+(defun any (&rest items)
+  (random-elt items))
+
 (defun badjoin (item list &key key (test #'eql))
   (reverse (adjoin item (reverse list) :key key :test test)))
 
